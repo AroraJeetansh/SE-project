@@ -7,12 +7,26 @@ import os
 
 app = Flask(__name__)
 
-# Allow explicit frontend origin in production (e.g., Vercel domain).
-allowed_origin = os.getenv('CORS_ORIGIN')
-if allowed_origin:
-    CORS(app, resources={r"/api/*": {"origins": [allowed_origin]}})
+# Allow explicit frontend origins in production (comma-separated).
+# Example:
+# CORS_ORIGIN=https://se2-project-liard.vercel.app,https://www.example.com
+allowed_origins_raw = os.getenv('CORS_ORIGIN', '').strip()
+if allowed_origins_raw:
+    allowed_origins = [o.strip().rstrip('/') for o in allowed_origins_raw.split(',') if o.strip()]
+    CORS(
+        app,
+        resources={r"/api/*": {"origins": allowed_origins}},
+        methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+        allow_headers=["Content-Type", "Authorization"],
+    )
 else:
-    CORS(app)
+    # Fallback for local development.
+    CORS(
+        app,
+        resources={r"/api/*": {"origins": "*"}},
+        methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+        allow_headers=["Content-Type", "Authorization"],
+    )
 
 # Initialize database
 init_db()
