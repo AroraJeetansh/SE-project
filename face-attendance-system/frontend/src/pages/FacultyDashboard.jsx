@@ -2,13 +2,14 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Camera, UserPlus, FileText, CheckCircle, GraduationCap } from 'lucide-react';
+import API_BASE_URL from '../config/api';
 
 const FacultyDashboard = () => {
     const navigate = useNavigate();
     const [attendanceRecords, setAttendanceRecords] = useState([]);
 
     useEffect(() => {
-        axios.get('http://localhost:5000/api/attendance')
+        axios.get(`${API_BASE_URL}/api/attendance`)
             .then(res => {
                 if (res.data.success) {
                     setAttendanceRecords(res.data.attendance);

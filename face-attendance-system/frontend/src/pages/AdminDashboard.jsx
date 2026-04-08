@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Plus, Users, UserPlus, Activity, ShieldCheck } from 'lucide-react';
 import axios from 'axios';
+import API_BASE_URL from '../config/api';
 
 const AdminDashboard = () => {
     const [stats, setStats] = useState({ total_users: '...', total_students: '...', attendance_records: '...' });
@@ -14,11 +15,11 @@ const AdminDashboard = () => {
 
     const fetchStats = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/admin/stats');
+            const res = await axios.get(`${API_BASE_URL}/api/admin/stats`);
             if (res.data.success) {
                 setStats(res.data.stats);
             }
-        } catch (err) {
+        } catch {
             console.error('Failed to fetch stats');
         }
     };
@@ -28,7 +29,7 @@ const AdminDashboard = () => {
         setLoading(true);
         setMessage({ text: '', type: '' });
         try {
-            const res = await axios.post('http://localhost:5000/api/users/add', formData);
+            const res = await axios.post(`${API_BASE_URL}/api/users/add`, formData);
             if (res.data.success) {
                 setMessage({ text: res.data.message, type: 'success' });
                 setFormData({ username: '', password: '', role: 'faculty' });

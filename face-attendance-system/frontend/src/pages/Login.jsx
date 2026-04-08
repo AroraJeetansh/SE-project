@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { ScanFace, Lock, User } from 'lucide-react';
+import API_BASE_URL from '../config/api';
 
 const Login = () => {
     const [username, setUsername] = useState('');
@@ -15,7 +16,7 @@ const Login = () => {
         setError('');
         setLoading(true);
         try {
-            const res = await axios.post('http://localhost:5000/api/login', { username, password });
+            const res = await axios.post(`${API_BASE_URL}/api/login`, { username, password });
             if (res.data.success) {
                 localStorage.setItem('user', JSON.stringify(res.data.user));
                 if (res.data.user.role === 'admin') navigate('/admin');

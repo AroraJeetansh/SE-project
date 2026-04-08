@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { User, Calendar, CheckCircle } from 'lucide-react';
+import API_BASE_URL from '../config/api';
 
 const StudentDashboard = () => {
     const [records, setRecords] = useState([]);
@@ -8,7 +9,7 @@ const StudentDashboard = () => {
     const user = userStr ? JSON.parse(userStr) : null;
 
     useEffect(() => {
-        axios.get('http://localhost:5000/api/attendance')
+        axios.get(`${API_BASE_URL}/api/attendance`)
             .then(res => {
                 if (res.data.success) {
                     const myRecords = res.data.attendance.filter(r => r.roll_number === user?.username);

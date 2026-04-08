@@ -36,6 +36,32 @@ npm run dev
 ```
 Access the application frontend at `http://localhost:5173`
 
+## Deploy (Option A: Vercel + Render)
+
+### 1) Deploy Backend on Render
+- Create a new **Web Service** from this repository.
+- Set the **Root Directory** to `backend`.
+- **Build Command**: `pip install -r requirements.txt`
+- **Start Command**: `gunicorn app:app`
+- Add environment variable:
+  - `CORS_ORIGIN=https://<your-vercel-domain>`
+
+If OpenCV build fails on Render, replace `opencv-contrib-python` with `opencv-python-headless` in `backend/requirements.txt`.
+
+### 2) Deploy Frontend on Vercel
+- Import this repository into Vercel.
+- Set the **Root Directory** to `frontend`.
+- Vercel will use:
+  - Build command: `npm run build`
+  - Output directory: `dist`
+- Add environment variable:
+  - `VITE_API_BASE_URL=https://<your-render-service>.onrender.com`
+
+### 3) Local env setup
+- Frontend example env is provided at `frontend/.env.example`.
+- Backend example env is provided at `backend/.env.example`.
+- Copy to `.env` and update values for your environment.
+
 ## Testing the Application
 
 ### Roles & Credentials

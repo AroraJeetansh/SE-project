@@ -3,9 +3,16 @@ from flask_cors import CORS
 from database import init_db, get_db_connection
 import face_service
 import json
+import os
 
 app = Flask(__name__)
-CORS(app)
+
+# Allow explicit frontend origin in production (e.g., Vercel domain).
+allowed_origin = os.getenv('CORS_ORIGIN')
+if allowed_origin:
+    CORS(app, resources={r"/api/*": {"origins": [allowed_origin]}})
+else:
+    CORS(app)
 
 # Initialize database
 init_db()
@@ -173,4 +180,5 @@ def add_user():
         conn.close()
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    port = int(os.getenv('PORT', 5000))
+    app.run(debug=True, host='0.0.0.0', port=port)

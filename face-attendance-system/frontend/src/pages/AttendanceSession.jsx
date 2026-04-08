@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { ArrowLeft, Play, Square, Users, AlertCircle, CheckCircle, Video } from 'lucide-react';
 import WebCamCapture from '../components/WebCamCapture';
+import API_BASE_URL from '../config/api';
 
 const AttendanceSession = () => {
     const navigate = useNavigate();
@@ -28,7 +29,7 @@ const AttendanceSession = () => {
     const handleCapture = async (imageSrc) => {
         setLoading(true);
         try {
-            const res = await axios.post('http://localhost:5000/api/attendance/mark', {
+            const res = await axios.post(`${API_BASE_URL}/api/attendance/mark`, {
                 face_image: imageSrc,
                 session_id: sessionId
             });

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Camera, CheckCircle, ArrowRight, User as UserIcon, AlertCircle, ArrowLeft } from 'lucide-react';
 import WebCamCapture from '../components/WebCamCapture';
+import API_BASE_URL from '../config/api';
 
 const Registration = () => {
     const [step, setStep] = useState(1);
@@ -27,7 +28,7 @@ const Registration = () => {
     const handleRegister = async () => {
         setLoading(true);
         try {
-            const res = await axios.post('http://localhost:5000/api/students/register', {
+            const res = await axios.post(`${API_BASE_URL}/api/students/register`, {
                 ...formData,
                 face_image: faceImage
             });
