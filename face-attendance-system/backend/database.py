@@ -12,7 +12,6 @@ def init_db():
     conn = get_db_connection()
     c = conn.cursor()
     
-    # Create Users Table
     c.execute('''
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -22,7 +21,6 @@ def init_db():
         )
     ''')
     
-    # Create Students Table (linked to user)
     c.execute('''
         CREATE TABLE IF NOT EXISTS students (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -34,7 +32,6 @@ def init_db():
         )
     ''')
     
-    # Create Attendance Table
     c.execute('''
         CREATE TABLE IF NOT EXISTS attendance (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -46,12 +43,10 @@ def init_db():
         )
     ''')
     
-    # Insert default admin if not exists
     c.execute('SELECT * FROM users WHERE username = "admin"')
     if not c.fetchone():
         c.execute('INSERT INTO users (username, password, role) VALUES (?, ?, ?)', ('admin', 'admin', 'admin'))
         
-    # Insert default faculty if not exists
     c.execute('SELECT * FROM users WHERE username = "faculty"')
     if not c.fetchone():
         c.execute('INSERT INTO users (username, password, role) VALUES (?, ?, ?)', ('faculty', 'faculty', 'faculty'))
